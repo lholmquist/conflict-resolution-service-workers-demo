@@ -1,0 +1,19 @@
+{
+  "name": "conflict-resolution-demo",
+  "version": "0.0.0",
+  "authors": [
+    "Lucas Holmquist <lholmqui@redhat.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.2"
+  }
+}
