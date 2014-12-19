@@ -10,7 +10,7 @@ $(function () {
                 dataType: 'json',
                 success: function (data) {
                     app.myData = data;
-                    $('#name').val(data.name);
+                    $('#name').val(data.content.name);
                 },
                 error: function () {
                     console.log('err');
@@ -25,7 +25,7 @@ $(function () {
                     console.log('success');
                     app.myData = data;
 
-                    $('#name').val(data.name);
+                    $('#name').val(data.content.name);
                 },
                 error: function () {
                     console.log('err');
@@ -36,7 +36,7 @@ $(function () {
             // Get initial data
             app.fetch();
             $('button').on('click', function () {
-                app.myData.name = $("#name").val();
+                app.myData.content.name = $("#name").val();
 
                 app.save(app.myData);
             });

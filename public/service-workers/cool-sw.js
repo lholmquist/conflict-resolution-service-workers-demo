@@ -1,4 +1,5 @@
 importScripts('/service-workers/diff_match_patch_uncompressed.js');
+importScripts('/bower_components/jsondiffpatch/public/build/jsondiffpatch.js');
 
 self.addEventListener('install', function () {
     console.log('Service Worker Installed');
@@ -20,23 +21,15 @@ self.addEventListener('fetch', function (event) {
                 return request.json().then(function (requestBody) {
                     return requestBody;
                 }).then(function (requestBody) {
-                    return r.json().then(function (obj) {
-                        var dmp = new diff_match_patch();
-                        // Stringify
-                        var stringedResponse = JSON.stringify(obj);
-                        var stringedRequest = JSON.stringify(requestBody);
-                        // diff
-                        var diff = dmp.diff_main(stringedResponse, stringedRequest);
+                    return r.json().then(function (responseBody) {
+                        var jdp = jsondiffpatch.create({objectHash: function(obj) { return obj.id || JSON.stringify(obj); }});
+                        var diff = jdp.diff(responseBody.content, requestBody.content); //The model returned, original content trying to get updated
 
-                        // create patch
-                        var patches = dmp.patch_make(stringedRequest, diff);
+                        console.log(diff);
 
-                        // patch it up
-                        var patched = dmp.patch_apply(patches, stringedRequest);
+                        jdp.patch(responseBody.content, diff);
 
-                        // back to JSON
-                        var patchedUpThing = JSON.parse(patched[0]);
-                        return new Response(new Blob([JSON.stringify(patchedUpThing)]), {headers: r.headers});
+                        return new Response(new Blob([JSON.stringify(responseBody)]), {headers: r.headers});
                     });
                 });
             }).catch(function (error) {

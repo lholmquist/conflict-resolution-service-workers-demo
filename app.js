@@ -18,8 +18,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var myData = {
     version: version,
-    name: 'Luke',
-    description: 'Cool Dude'
+    content: {
+        name: 'Luke',
+        description: 'Cool Dude'
+    }
 };
 
 app.get('/data', function (request, response) {
@@ -38,8 +40,8 @@ app.put('/data', function (request, response) {
         return;
     }
 
-    myData.name = body.name;
-    myData.description = body.description;
+    myData.content.name = body.content.name;
+    myData.content.description = body.content.description;
 
     myData.version++;
     response.send(myData);

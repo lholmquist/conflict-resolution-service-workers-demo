@@ -251,7 +251,7 @@
     } else {
         // browser global
         if (typeof jsondiffpatch == 'undefined'){
-            window.jsondiffpatch = jdp = {};
+            this.jsondiffpatch = jdp = {};
         } else {
             jdp = jsondiffpatch;
         }
