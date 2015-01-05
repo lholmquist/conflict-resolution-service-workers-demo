@@ -12,8 +12,13 @@ $(function () {
                     app.myData = data;
                     $('#name').val(data.content.name);
                 },
-                error: function () {
-                    console.log('err');
+                statusCode: {
+                    409: function () {
+                        console.log(arguments);
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
                 }
             });
         },

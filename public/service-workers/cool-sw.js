@@ -25,11 +25,22 @@ self.addEventListener('fetch', function (event) {
                         var jdp = jsondiffpatch.create({objectHash: function(obj) { return obj.id || JSON.stringify(obj); }});
                         var diff = jdp.diff(responseBody.content, requestBody.content); //The model returned, original content trying to get updated
 
+                        var status = {
+                            headers: r.headers
+                        };
+
+                        var autoMerge = false;
+
                         console.log(diff);
 
-                        jdp.patch(responseBody.content, diff);
+                        if (autoMerge) {
+                            jdp.patch(responseBody.content, diff);
+                        } else {
+                            status.status = 409;
+                            status.statusText = 'Conflict';
+                        }
 
-                        return new Response(new Blob([JSON.stringify(responseBody)]), {headers: r.headers});
+                        return new Response(new Blob([JSON.stringify([responseBody, diff])]), status);
                     });
                 });
             }).catch(function (error) {

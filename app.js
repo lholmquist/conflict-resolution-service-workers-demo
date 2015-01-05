@@ -19,10 +19,30 @@ app.use(express.static(path.join(__dirname, 'public')));
 var myData = {
     version: version,
     content: {
-        name: 'Luke',
-        description: 'Cool Dude'
+        name: "Luke Skywalker",
+        profession: "Jedi",
+        description: 'Cool Dude',
+        hobbies: [
+            {
+                id: 1,
+                description: "Fighting the Dark Side"
+            },
+            {
+                id: 2,
+                description: "going into Tosche Station to pick up some power converters"
+            },
+            {
+                id: 3,
+                description: "Kissing his sister"
+            },
+            {
+                id: 4,
+                description: "Bulls eyeing Womprats on his T-16"
+            }
+        ]
     }
 };
+
 
 app.get('/data', function (request, response) {
     response.send(myData);
